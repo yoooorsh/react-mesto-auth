@@ -1,0 +1,19 @@
+.profile__info {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  grid-template-rows: repeat(2, max-content);
+  grid-template-areas:
+  "name edit-button"
+  "desc desc";
+  gap: 16px 18px;
+  align-items: center;
+  margin-left: 30px;
+}
+
+@media screen and (max-width: 920px) {
+  .profile__info {
+    margin: 26px 0 0 18px;
+    gap: 14px 10px;
+    justify-items: center;
+  }
+}

@@ -1,0 +1,26 @@
+.root {
+  background-color: black;
+  /* padding: 45px 200px 60px; */
+  padding-top: 45px;
+  padding-bottom: 60px;
+  padding-right: calc((100% - 880px) / 2);
+  padding-left: calc((100% - 880px) / 2);
+  /* max-width: 1280px; */
+  box-sizing: border-box;
+  margin: auto;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 18px;
+  color: white;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+@media screen and (max-width: 920px) {
+  .root {
+    padding: 28px 0 36px;
+  }
+}
