@@ -1,0 +1,10 @@
+.form__sign-in-link {
+  color: white;
+  text-decoration: none;
+  transition: opacity .1s linear;
+}
+
+.form__sign-in-link:hover {
+  opacity: .5;
+  cursor: pointer;
+}
