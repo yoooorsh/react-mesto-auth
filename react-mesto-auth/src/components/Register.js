@@ -1,13 +1,10 @@
 import { React, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Form from './Form';
-import * as auth from '../utils/apiAuth.js';
 
 function Register(props) {
   const [email, setEmail] = useState('');
   const [password , setPassword ] = useState('');
-
-  const history = useHistory();
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -20,14 +17,7 @@ function Register(props) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    auth.register(password, email).then((res) => {
-      if(res) {
-        props.onSuccessRegistration();
-        history.push('/sign-in');
-      } else {
-        props.onFailedRegistration();
-      }
-    });
+    props.onHandleSubmit(password, email);
   }
 
   return (

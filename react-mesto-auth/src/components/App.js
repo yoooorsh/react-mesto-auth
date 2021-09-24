@@ -37,6 +37,31 @@ function App() {
     setLoggedIn(true);
   }
 
+  function handleSubmitRegistration(password, email) {
+    auth.register(password, email)
+      .then((res) => {
+        if(res) {
+          handleSuccessTooltipOpen();
+          history.push('/sign-in');
+        } else {
+          handleFailedTooltipOpen();
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleSubmitAuth(email, password) {
+    auth.authorize(email, password)
+    .then((data) => {
+      if (data.token) {
+        setCurUserEmail(email);
+        handleLogin();
+        history.push('/');
+      }
+    })
+    .catch((err) => console.log(err));
+  }
+
   React.useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -47,54 +72,48 @@ function App() {
           setLoggedIn(true);
           history.push("/");
         }
-      }); 
+      })
+      .catch((err) => console.log(err)); 
     }
   }, [history]);
   
   return (
-    <Switch>
-      <ProtectedRoute 
-        exact 
-        path="/"
-        component={MainPage}
-        loggedIn={loggedIn}
-        curUserEmail={curUserEmail}
-      />
-
-      <Route exact path="/sign-in">
-        <Header/>
-
-        <Login 
-          handleLogin={handleLogin}
-          setCurUserEmail={setCurUserEmail}
+    <>
+      <Switch>
+        <ProtectedRoute 
+          exact 
+          path="/"
+          component={MainPage}
+          loggedIn={loggedIn}
+          curUserEmail={curUserEmail}
         />
 
-        <InfoTooltip 
-          isOpen={isInfoTooltipPopupOpen} 
-          onClose={closeAllPopups}
-          isSuccessAuth={isSuccessAuth}
-        />
-      </Route>
+        <Route exact path="/sign-in">
+          <Header/>
 
-      <Route exact path="/sign-up">
-        <Header/>
+          <Login
+            onHandleSubmit={handleSubmitAuth}
+          />
+        </Route>
 
-        <Register 
-          onSuccessRegistration={handleSuccessTooltipOpen}
-          onFailedRegistration={handleFailedTooltipOpen}
-        />
+        <Route exact path="/sign-up">
+          <Header/>
 
-        <InfoTooltip 
-          isOpen={isInfoTooltipPopupOpen} 
-          onClose={closeAllPopups}
-          isSuccessAuth={isSuccessAuth}
-        />
-      </Route>
+          <Register
+            onHandleSubmit={handleSubmitRegistration}
+          />
+        </Route>
 
-      <Route path="*">
-        <Redirect to="/" />
-      </Route> 
-    </Switch>
+        <Route path="*">
+          <Redirect to="/" />
+        </Route> 
+      </Switch>
+      <InfoTooltip 
+      isOpen={isInfoTooltipPopupOpen} 
+      onClose={closeAllPopups}
+      isSuccessAuth={isSuccessAuth}
+    />
+  </>
   );
 }
 

@@ -1,13 +1,9 @@
 import { React, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Form from './Form';
-import * as auth from '../utils/apiAuth.js';
 
 function Login(props) {
   const [email, setEmail] = useState('');
   const [password , setPassword ] = useState('');
-
-  const history = useHistory();
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -23,18 +19,8 @@ function Login(props) {
     if (!email || !password){
       return;
     }
-    
-    auth.authorize(email, password)
-    .then((data) => {
-      if (data.token) {
-        props.setCurUserEmail(email);
-        setEmail('');
-        setPassword('');
-        props.handleLogin();
-        history.push('/');
-      }
-    })
-    .catch(err => console.log(err));
+
+    props.onHandleSubmit(email, password);
   }
 
   return (

@@ -9,22 +9,10 @@ export const register = (password, email) => {
     },
     body: JSON.stringify({password, email})
   })
-  .then((response) => {
-    try {
-      if ((response.status >= 200) && (response.status < 300)){
-        return response.json();
-      }
-    } catch(e){
-      if (response.status === 400) {
-        console.log("некорректно заполнено одно из полей");
-      }
-      return (e)
-    }
-  })
+  .then((res) => _checkResponse(res))
   .then((res) => {
     return res;
-  })
-  .catch((err) => console.log(err));
+  });
 };
 
 export const authorize = (email, password) => {
@@ -42,8 +30,7 @@ export const authorize = (email, password) => {
       localStorage.setItem('token', data.token);
       return data;
     }
-  })
-  .catch(err => console.log(err))
+  });
 };
 
 export const getContent = (token) => {
@@ -56,5 +43,18 @@ export const getContent = (token) => {
     }
   })
   .then(res => res.json())
-  .then(data => data)
+  .then(data => data);
 };
+
+function _checkResponse(response) {
+  try {
+    if ((response.status >= 200) && (response.status < 300)){
+      return response.json();
+    }
+  } catch(e){
+    if (response.status === 400) {
+      console.log("Некорректно заполнено одно из полей");
+    }
+    return (e)
+  }
+}
