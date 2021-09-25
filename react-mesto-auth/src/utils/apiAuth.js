@@ -24,7 +24,7 @@ export const authorize = (email, password) => {
     },
     body: JSON.stringify({email, password})
   })
-  .then((response => response.json()))
+  .then((res) => _checkResponse(res))
   .then((data) => {
     if (data.token){
       localStorage.setItem('token', data.token);
@@ -42,19 +42,13 @@ export const getContent = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-  .then(res => res.json())
+  .then((res) => _checkResponse(res))
   .then(data => data);
 };
 
-function _checkResponse(response) {
-  try {
-    if ((response.status >= 200) && (response.status < 300)){
-      return response.json();
-    }
-  } catch(e){
-    if (response.status === 400) {
-      console.log("Некорректно заполнено одно из полей");
-    }
-    return (e)
+function _checkResponse(res) {
+  if (res.ok) {
+    return res.json();
   }
-}
+  return Promise.reject(`Error: ${res.status}`);
+} 

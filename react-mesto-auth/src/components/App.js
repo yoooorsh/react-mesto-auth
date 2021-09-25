@@ -39,15 +39,11 @@ function App() {
 
   function handleSubmitRegistration(password, email) {
     auth.register(password, email)
-      .then((res) => {
-        if(res) {
-          handleSuccessTooltipOpen();
-          history.push('/sign-in');
-        } else {
-          handleFailedTooltipOpen();
-        }
+      .then(() => {
+        handleSuccessTooltipOpen();
+        history.push('/sign-in');
       })
-      .catch((err) => console.log(err));
+      .catch(() => handleFailedTooltipOpen());
   }
 
   function handleSubmitAuth(email, password) {
